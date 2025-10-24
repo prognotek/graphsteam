@@ -26,11 +26,11 @@
     },
     {
       "source": "/(.*\\.\\w+)",
-      "destination": "/frontend/dist/graph-steam-front/$1"
+      "destination": "/$1"
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/dist/graph-steam-front/index.html"
+      "destination": "/index.html"
     }
   ]
 }
