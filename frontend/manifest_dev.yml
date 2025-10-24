@@ -1,0 +1,14 @@
+---
+applications:
+- name: dev-grafo-front
+  path: ./dist
+  routes:
+   #- route: https://www.miniterms.ford.com/settings
+   #- route: miniterms.ford.com/settings
+   - route: dev-grafo-front.apps.pd01i.uscentral1.cf.gcp.ford.com/grafo
+  memory: 128M
+  disk_quota: 64MB
+  instances: 1
+  buildpacks: 
+   - nginx_buildpack
+  stack: cflinuxfs3

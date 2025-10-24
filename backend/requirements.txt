@@ -1,0 +1,8 @@
+networkx
+pandas
+matplotlib
+fastapi
+openpyxl
+uvicorn
+python-multipart
+starlette

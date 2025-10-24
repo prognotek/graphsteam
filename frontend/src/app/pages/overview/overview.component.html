@@ -1,0 +1,82 @@
+<div class="messages" >
+  <p-messages [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" severity="warn"></p-messages>
+</div>
+<div style="display: flex; flex-direction: row; justify-content: space-between">
+  <img alt="Logo de CEU" style="height: 60px;" src="./assets/images/ceu.png"/>
+  <div style="background: linear-gradient(to left, #80b5f1, white); height: 60px; width: 100%; text-align: right; font-size: x-large; color: rgb(10, 57, 143);">
+    <p style="margin-right: 20px; margin-top: 15px"><b>Graph Manager - v1.0.3</b></p>
+  </div>
+</div>
+<div *ngIf="loading" class="loader">
+  <p-progressSpinner [style]="{width: '100px', height: '100px'}" styleClass="custom-spinner" strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+  <p style="color: #102b4e;">Loading graph...</p>
+</div>
+<div style="display: flex; flex-direction: row; justify-content: left; align-items: left;">
+  <div style="display: flex; flex-direction: column; justify-content: left; align-items: left; padding-top: 50px; padding-left: 100px; padding-right: 50px">
+    <p-tabView (onChange)="onTabChange($event)">
+      <p-tabPanel header="Global Graph">
+        <div style="display: flex; flex-direction: column; justify-content: left; align-items: left; padding-bottom: 5%; padding-left: 50px; height: 450px">
+          <div style="display: flex; flex-direction: row; align-items: center; gap: 20px">
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px">
+              <p style="font-size: large"><b>RA Size:</b></p>
+              <input pInputText [(ngModel)]="diametroRA" style="width: 100px; height: 40px; font-size: x-large; text-align: center;" class="form-control" type="text" id="formFile">
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px">
+              <p style="font-size: large"><b>K Size:</b></p>
+              <input pInputText [(ngModel)]="diametroK" style="width: 100px; height: 40px; font-size: x-large; text-align: center;" class="form-control" type="text" id="formFile">
+            </div>
+          </div>
+          <div>
+            <p style="font-size: large"><b>Algorithm Multiplier:</b>&nbsp;&nbsp;{{multiplicadorAlgoritmo}}</p>
+            <input style="width: 300px" type="range" min="0" max="1" step="0.1" [(ngModel)]="multiplicadorAlgoritmo">
+            <p style="font-size: large"><b>Weight Multiplier:</b>&nbsp;&nbsp;{{multiplicadorPeso}}</p>
+            <input style="width: 300px" type="range" min="0" max="1" step="0.1" [(ngModel)]="multiplicadorPeso">
+            <p style="font-size: large"><b>Text Size Nodes:</b>&nbsp;&nbsp;{{tamanoTextoNodos}}</p>
+            <input style="width: 300px" type="range" min="10" max="30" step="1" [(ngModel)]="tamanoTextoNodos">
+            <p style="font-size: large"><b>Nodes Opacity:</b>&nbsp;&nbsp;{{opacidadNodos}}</p>
+            <input style="width: 300px" type="range" min="0" max="1" step="0.1" [(ngModel)]="opacidadNodos">
+          </div>
+          <div style="display: flex; flex-direction: row; justify-content: left; align-items: center; padding-top: 5px">
+            <p-inputSwitch (onChange)="habilidadSwitchedChanged($event)" [(ngModel)]="habilidadSwitched"></p-inputSwitch>
+            <p style="font-size: large;">&nbsp;&nbsp;K -> P</p>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="ODS Graph">
+        <div style="display: flex; flex-direction: column; justify-content: left; align-items: left; padding-bottom: 5%; padding-left: 50px; height: 450px">
+          <div>
+            <p style="font-size: large"><b>Text Size Nodes:</b>&nbsp;&nbsp;{{tamanoTextoNodos}}</p>
+            <input style="width: 300px" type="range" min="10" max="30" step="1" [(ngModel)]="tamanoTextoNodos">
+            <p style="font-size: large"><b>Nodes Opacity:</b>&nbsp;&nbsp;{{opacidadNodos}}</p>
+            <input style="width: 300px" type="range" min="0" max="1" step="0.1" [(ngModel)]="opacidadNodos">
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="STEAM Graph">
+        <div style="display: flex; flex-direction: column; justify-content: left; align-items: left; padding-bottom: 5%; padding-left: 50px; height: 450px">
+          <div>
+            <p style="font-size: large"><b>Text Size Nodes:</b>&nbsp;&nbsp;{{tamanoTextoNodos}}</p>
+            <input style="width: 300px" type="range" min="10" max="30" step="1" [(ngModel)]="tamanoTextoNodos">
+            <p style="font-size: large"><b>Nodes Opacity:</b>&nbsp;&nbsp;{{opacidadNodos}}</p>
+            <input style="width: 300px" type="range" min="0" max="1" step="0.1" [(ngModel)]="opacidadNodos">
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+    <div style="padding-top: 50px;">
+      <form [formGroup]="form">
+        <input formControlName="fichero" style="width: 500px" (change)="this.onFilechange($event)" class="form-control" type="file" id="formFile" accept=".xlsx, .xls">
+      </form>
+    </div>
+    <div style="padding-top: 50px;">
+      <button class="boton" (click)="this.upload()" type="button" style="width: 150px;">View Graph</button>
+    </div>
+  </div>
+  <div *ngIf="grafo == ''" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-top: 10px; padding-left: 100px">
+    <img src="./assets/images/sinImagenDefault.jpg" alt="Grafo" style="height: 650px; width: 800px; padding-bottom: 10px; border: 1px solid grey;">
+  </div>
+  <div *ngIf="grafo != ''" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-left: 100px">
+    <img [src]="grafo" alt="Grafo" style="height: 650px; width: 800px; padding-bottom: 10px">
+    <button class="boton" (click)="this.download()" type="button" style="width: 200px">Download Graph</button>
+  </div>
+</div>
