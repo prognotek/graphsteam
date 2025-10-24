@@ -16,7 +16,7 @@
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "config": { "distDir": "dist/frontend-app" }
+      "config": { "distDir": "dist/graph-steam-front" }
     }
   ],
   "rewrites": [
@@ -26,7 +26,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/dist/frontend-app/$1"
+      "destination": "/frontend/dist/graph-steam-front/$1"
     }
   ]
 }
