@@ -25,12 +25,9 @@
       "destination": "/backend/main.py"
     },
     {
-      "source": "/(.*\\.\\w+)",
-      "destination": "/$1"
-    },
-    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/frontend/dist/graph-steam-front/$1"
     }
   ]
 }
+
